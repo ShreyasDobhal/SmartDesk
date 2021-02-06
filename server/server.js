@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
+const path = require('path');
 
 const Gpio = require('onoff').Gpio;
 const device1 = new Gpio(2, 'out');
@@ -20,10 +21,17 @@ app.use(morgan('dev'));
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(bodyparser.json());
 
+// STATIC FILES
+app.use('/static',express.static('static'));
+app.use(express.urlencoded())
+
+// PUG
+app.set('view engine','pug');
+app.set('views',path.join(__dirname,'views'));
 
 // END POINTS
 app.get('/', (req, res) => {
-    res.send('Server is running . . . ');
+    res.status(200).render('index.pug', {title:'Sample'}); 
 });
 
 function setDevice(device, state) {

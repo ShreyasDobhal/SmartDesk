@@ -7,7 +7,22 @@
     <title>Smart Desk</title>
 </head>
 <body>
-    <h1>Welcome !</h1>
+    <div class="container">
+        <img class="bg-img" src="/static/images/pi.png" />
+        <div class="btn-holder">
+            <div class="btn-container">
+                <button class="btn" id="btn-1">Toggle Device 1</button>
+                <p class="txt" id="txt-1">OFF</p>
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="btn-2">Toggle Device 2</button>
+                <p class="txt" id="txt-2">ON</p>
+            </div>
+        </div>
+    </div>
+    <div id="snackbar">Message copied !</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/static/javascript/client.js"></script>
 </html>

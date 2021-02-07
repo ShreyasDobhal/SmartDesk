@@ -3,10 +3,11 @@ const bodyparser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 
-const Gpio = require('onoff').Gpio;
-const device1 = new Gpio(2, 'out');
-const device2 = new Gpio(3, 'out');
-const LED = new Gpio(3, 'out');
+// const Gpio = require('onoff').Gpio;
+// const device1 = new Gpio(2, 'out');
+// const device2 = new Gpio(3, 'out');
+// const LED = new Gpio(3, 'out');
+const deviceState = ['off', 'off'];
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.set('views',path.join(__dirname,'views'));
 
 // END POINTS
 app.get('/', (req, res) => {
-    res.status(200).render('index.pug', {title:'Sample'}); 
+    res.status(200).render('index.pug'); 
 });
 
 function setDevice(device, state) {
@@ -39,6 +40,19 @@ function setDevice(device, state) {
     device.writeSync(state);
     return message;
 }
+
+app.get('/status', (req, res) => {
+    // Get status of all devices
+    res.json({
+        'device1': deviceState[0] === 'off' ? 'Device off' : 'Device on',
+        'device2': deviceState[1] === 'off' ? 'Device off' : 'Device on'
+    });
+
+    // res.json({
+    //     'device1': device1.readSync() === 0 ? 'Device off' : 'Device on',
+    //     'device2': device2.readSync() === 0 ? 'Device off' : 'Device on'
+    // });
+});
 
 app.get('/on', (req, res) => {
     // Turn on the LED 
@@ -51,6 +65,19 @@ app.get('/off', (req, res) => {
     const message = setDevice(LED, 0);
     return message;
 });
+
+app.post('/device1_test', (req, res) => {
+    // Toggle device1
+    deviceState[0] = deviceState[0] === 'off' ? 'on' : 'off';
+    res.send('Device ' + deviceState[0]);
+});
+
+app.post('/device2_test', (req, res) => {
+    // Toggle device2
+    deviceState[1] = deviceState[1] === 'off' ? 'on' : 'off';
+    res.send('Device ' + deviceState[1]);
+});
+
 
 app.post('/device1', (req, res) => {
     // Toggle device1

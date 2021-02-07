@@ -3,10 +3,10 @@ const bodyparser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 
-// const Gpio = require('onoff').Gpio;
-// const device1 = new Gpio(2, 'out');
-// const device2 = new Gpio(3, 'out');
-// const LED = new Gpio(3, 'out');
+const Gpio = require('onoff').Gpio;
+const device1 = new Gpio(2, 'out');
+const device2 = new Gpio(3, 'out');
+const LED = new Gpio(3, 'out');
 const deviceState = ['off', 'off'];
 
 const app = express();
@@ -43,15 +43,15 @@ function setDevice(device, state) {
 
 app.get('/status', (req, res) => {
     // Get status of all devices
-    res.json({
-        'device1': deviceState[0] === 'off' ? 'Device off' : 'Device on',
-        'device2': deviceState[1] === 'off' ? 'Device off' : 'Device on'
-    });
-
     // res.json({
-    //     'device1': device1.readSync() === 0 ? 'Device off' : 'Device on',
-    //     'device2': device2.readSync() === 0 ? 'Device off' : 'Device on'
+    //     'device1': deviceState[0] === 'off' ? 'Device off' : 'Device on',
+    //     'device2': deviceState[1] === 'off' ? 'Device off' : 'Device on'
     // });
+
+    res.json({
+        'device1': device1.readSync() === 0 ? 'Device off' : 'Device on',
+        'device2': device2.readSync() === 0 ? 'Device off' : 'Device on'
+    });
 });
 
 app.get('/on', (req, res) => {

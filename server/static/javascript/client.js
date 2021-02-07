@@ -9,7 +9,7 @@ const txt = {
 function performAction(device) {
     console.log('Action performed ', device);
     $.ajax({
-        url: "/" + device + '_test',
+        url: "/" + device,
         type: "POST",
         success: (msg) => {
             console.log(msg);
